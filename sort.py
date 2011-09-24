@@ -3,26 +3,25 @@
 # Made for easy modification. Tested: Windows/Ubuntu Python 2.7, 3.2.
 # Beware, it will also move folders and program Shortcuts.
 
-import os, re, platform
+import os,re,platform
+DIR = 'dir/'
+OTHER = 'z_OTHER/'
 _organize = {
-    'txt':        'txt,rtf,doc,xls,org,htm,html,odp,odt,pps,ppt,nfo,tex'
-    ,'txt/ebook': 'pdf,epub,chm,ps,djvu'
-    ,'images':    'png,gif,jpg,bmp,jpeg,tiff,ico,psd,xcf,svg,tga,ai'
-    ,'exe':       'exe,msi,lnk,swf,jar,jnlp,dll,com,bat,app,gadget'
-    ,'iso':       'iso,nrg,bin,cue,mds,ccd,udf,daa,uif,vcd'
-    ,'zip':       'zip,gz,tar,bz2,rar,ace,tgz,z,7z,deb,pls,m3u,sfv,pkg,dmg,rpm'
-    ,'audio':     'wav,mp3,midi,mid,wma,aac,ac3,faac,ape,m4a'
-    ,'video':     'mp4,mkv,ogg,mpg,mpeg,wmv,avi,m4v,flv,divx,ogv,mov,vob,rm,3gp'
-    ,'src':       'php,c,py,js,css,fla,lsp,erl,sh,hs,scm,d,go,pl,avs,ahk,as,fla,cpp,bash,hrl,h,java,m,ml'
-    ,'src/dat':   'log,sql,cnf,conf,patch,diff,ini,xml,cvs,cfg'
-    ,'other':     '*'
-    ,'other/bt':   'torrent'
-    ,'dir':       '/'
-    }
+           'IMG':       'png,gif,jpg,jpeg,bmp,tiff,ico,psd,xcf,svg,tga,ai'
+          ,'TXT':       'txt,rtf,doc,docx,xls,org,htm,html,odp,odt,pps,ppt,nfo,tex,textile,md'
+          ,'TXT/ebook': 'pdf,epub,chm,ps,djvu'
+          ,'MUSIC':     'mp3,ogg,wav,midi,mid,wma,aac,ac3,faac,ape,m4a,flacc'
+          ,'VIDEO':     'mp4,mkv,ogg,mpg,mpeg,wmv,avi,m4v,flv,divx,ogv,mov,vob,rm,3gp'
+          ,'APP':       'app,jar'
+          ,'APP/dmg':   'dmg,pkg'
+          ,'ZIP':       'zip,gz,tar,bz2,rar,ace,tgz,z,7z,deb,pls,m3u,sfv,rpm'
+          ,'CODE':      'py,rb,php,c,js,css,fla,lsp,as,sh,java,cpp,m'
+          ,'z_OTHER':     '*'
+          ,'dir':       '/'
+          }
 # conditions where sorting is avoided
-_ignore = [("re", "^\."), ("match", "crdownload"), ("exact", "desktop.ini"),
-           ("exact", "Downloads"), ("re", "\.part$")]
-
+_ignore=[("re","^\."),("match","crdownload"),("exact","desktop.ini"),("exact","Downloads"),
+         ("exact", "sort.py"),("re","\.part$")]
 
 def main():
     # Set which folder things get sorted into
@@ -38,9 +37,8 @@ def main():
 
     if not os.path.isdir(final):
         os.mkdir(final)
-
     # Put which folders you want sorted. will ignore if doesn't exist
-    sortTheseFolders = [final, final + "../../Desktop/", final + "../Desktop/"]
+    sortTheseFolders = [final]
     sort(sortTheseFolders, final)
 
 
@@ -54,8 +52,8 @@ def sort(dirs, final):
     for path, file in sum([[(d, z) for z in os.listdir(d)] for d in dirs if os.path.exists(d)], []):
         if file in _organize or exclude(file):
             pass
-        elif os.path.isdir(path + file) and not os.path.exists(final + "dir/" + file):
-            os.rename(path + file, final + "dir/" + file)
+        elif os.path.isdir(path + file) and not os.path.exists(final + DIR + file):
+            os.rename(path + file, final + DIR + file)
         else:
             to = final + grouping(file.rpartition(".")[2].lower()) + file
             if not os.path.exists(to):
@@ -76,7 +74,7 @@ def grouping(ext):
     for folder, exts in _organize.items():
         if ext in exts:
             return folder + "/"
-    return "other/"
+    return OTHER
 
 if __name__ == '__main__':
     main()
