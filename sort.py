@@ -4,7 +4,7 @@
 # Beware, it will also move folders and program Shortcuts.
 
 import os,re,platform
-DIR = 'dir/'
+DIR = 'DIRS/'
 OTHER = 'z_OTHER/'
 _organize = {
            'IMG':       'png,gif,jpg,jpeg,bmp,tiff,ico,psd,xcf,svg,tga,ai'
@@ -17,7 +17,7 @@ _organize = {
           ,'ZIP':       'zip,gz,tar,bz2,rar,ace,tgz,z,7z,deb,pls,m3u,sfv,rpm'
           ,'CODE':      'py,rb,php,c,js,css,fla,lsp,as,sh,java,cpp,m'
           ,'z_OTHER':     '*'
-          ,'dir':       '/'
+          ,'DIRS':       '/'
           }
 # conditions where sorting is avoided
 _ignore=[("re","^\."),("match","crdownload"),("exact","desktop.ini"),("exact","Downloads"),
